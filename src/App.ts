@@ -1,8 +1,10 @@
 import * as express from 'express';
 import * as dotenv from 'dotenv';
+import * as bodyParser from "body-parser"
 import * as cors from 'cors';
 import path = require('path');
-import { DataSource } from 'typeorm';
+import { RobotRouter } from './router/RobotRouter';
+import * as AWS from 'aws-sdk'
 
 class App {
 
@@ -35,7 +37,15 @@ class App {
     }
 
     private initializeRoutes() {
+        this.app.use(bodyParser.json());
+
+        this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+            console.log(`Received ${req.method} request from ${req.ip} to ${req.originalUrl}`);
+            next(); // Continue processing the request
+        });
+
         this.app.use('/api/v1/', this.router)
+        new RobotRouter().routes(this.router)
     }
 
     public listen(): void {

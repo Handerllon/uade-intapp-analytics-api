@@ -1,9 +1,46 @@
 {
+  "name": "intapp_2c_2023_back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "export NODE_ENV=development && echo $NODE_ENV && nodemon ",
+    "test": "NODE_OPTIONS=--experimental-vm-modules && export NODE_ENV=test &&  echo $NODE_ENV  && npx jest --detectOpenHandles --watchAll --forceExit",
+    "typeorm": "typeorm-ts-node-commonjs -d ./src/data-source.ts",
+    "migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transform": {
+      "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!variables/.*)"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Handerllon/uade-intapp-analytics-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Handerllon/uade-intapp-analytics-api/issues"
+  },
+  "homepage": "https://github.com/Handerllon/uade-intapp-analytics-api#README",
   "dependencies": {
     "@types/node": "^20.8.5",
+    "aws-sdk": "^2.1473.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "typeorm": "^0.3.17"
+    "nodemon": "^3.0.1",
+    "typeorm": "^0.3.17",
+    "typescript": "^5.2.2",
+    "uuid": "^9.0.1"
   }
 }
