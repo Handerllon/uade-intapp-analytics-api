@@ -5,6 +5,7 @@ import * as cors from 'cors';
 import path = require('path');
 import { RobotRouter } from './router/RobotRouter';
 import * as AWS from 'aws-sdk'
+import { AwsManager } from './CloudIntegrator';
 
 class App {
 
@@ -28,12 +29,12 @@ class App {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
 
-        // initialize resources
-        this.initializeRoutes();
+        // initialize AWS resources
+        const awsManager: AwsManager = new AwsManager()
+        awsManager.initialize()
 
-        // initialize data source
-        //const datasource: DataSource =  getDataSource();
-        //datasource.initialize();
+        // initialize routes
+        this.initializeRoutes();
     }
 
     private initializeRoutes() {

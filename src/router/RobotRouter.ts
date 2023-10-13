@@ -13,5 +13,6 @@ export class RobotRouter {
         router
             .get(`${this.prefix}`, this.controller.index)
             .post(`${this.prefix}/delivery`, this.controller.createRobotDeliveryEvent)
+            .post(`${this.prefix}/status`, this.controller.createRobotStatusEvent)
     }
 }

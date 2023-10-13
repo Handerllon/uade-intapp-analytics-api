@@ -22,4 +22,14 @@ export class RobotController{
             res.status(500).json({error: 'An error ocurred: ' + err.message});
         }
     }
+
+    async createRobotStatusEvent(req: Request, res: Response): Promise<any> {
+        try {
+            const result = await RobotController.service.createRobotStatusEvent(req.body)
+            res.status(200).json({message: 'Status event creation successful'});
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({error: 'An error ocurred: ' + err.message});
+        }
+    }
 }

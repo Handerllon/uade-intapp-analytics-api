@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class RobotDelivery {
+export class RobotStatus {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
@@ -10,16 +10,16 @@ export class RobotDelivery {
   @Column()
   createdDate: number;
 
-  @Column({default:"delivery"})
+  @Column({default:"status"})
   eventName: string
 
   @Column()
   robotName: string;
 
   @Column()
-  neighbourhoodLot: number;
+  robotStatus: string;
 
   @Column()
-  itemName: string;
+  batteryLeft: number;
 
 }
