@@ -1,5 +1,5 @@
 import { DynamoDB, config } from "aws-sdk";
-import { ROBOT_TABLE } from "./Constants";
+import { CORE_CONTABLE_TABLE, MARKETPLACE_TABLE, ROBOT_TABLE, USER_ADM_TABLE } from "./Constants";
 
 export class AwsManager{
 
@@ -12,8 +12,11 @@ export class AwsManager{
         const dynamoClient = new DynamoDB()
 
         console.log("Checking tables...")
-        // Verificamos si existe la tabla de información de robots, si no, la creamos
+        // Verificamos si existe las distintas tablas. Si no, las creamos
         this.checkTable(ROBOT_TABLE, dynamoClient)
+        this.checkTable(CORE_CONTABLE_TABLE, dynamoClient)
+        this.checkTable(MARKETPLACE_TABLE, dynamoClient)
+        this.checkTable(USER_ADM_TABLE, dynamoClient)
     }
 
     private checkTable(tableName: string, dynamoClient: DynamoDB){

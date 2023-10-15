@@ -1,11 +1,11 @@
 // services/DynamoDBService.ts
 import { DynamoDB, config } from 'aws-sdk';
 import { RobotDelivery } from '../entity/Robots/RobotDelivery.entity';
+import { RobotStatus } from '../entity/Robots/RobotStatus.entity';
 import { ROBOT_TABLE } from '../Constants';
 import { v4 } from 'uuid'
-import { RobotStatus } from '../entity/Robots/RobotStatus.entity';
 
-export default class DynamoDBService {
+export default class RobotService {
     private client: DynamoDB.DocumentClient
 
     constructor(){
@@ -54,15 +54,5 @@ export default class DynamoDBService {
 
         const res = await this.client.put(params).promise()
         return res;
-    }
-
-    async getRobotEventByEventId(id: number) {
-        const params = {
-        TableName: ROBOT_TABLE,
-        Key: { id },
-        };
-
-        const result = await this.client.get(params).promise();
-        return result.Item;
     }
 }

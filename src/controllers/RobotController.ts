@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import DynamoService from "../services/DynamoService";
+import RobotService from "../services/RobotService";
 
 export class RobotController{
 
-    private static service: DynamoService = new DynamoService();
+    private static service: RobotService = new RobotService();
 
     async index(req: Request, res: Response): Promise<any> {
         try {

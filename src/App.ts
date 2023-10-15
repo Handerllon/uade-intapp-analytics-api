@@ -4,8 +4,10 @@ import * as bodyParser from "body-parser"
 import * as cors from 'cors';
 import path = require('path');
 import { RobotRouter } from './router/RobotRouter';
-import * as AWS from 'aws-sdk'
 import { AwsManager } from './CloudIntegrator';
+import { MarketRouter } from './router/MarketRouter';
+import { CoreContRouter } from './router/CoreContRouter';
+import { AdmRouter } from './router/AdmRouter';
 
 class App {
 
@@ -47,6 +49,9 @@ class App {
 
         this.app.use('/api/v1/', this.router)
         new RobotRouter().routes(this.router)
+        new MarketRouter().routes(this.router)
+        new CoreContRouter().routes(this.router)
+        new AdmRouter().routes(this.router)
     }
 
     public listen(): void {
