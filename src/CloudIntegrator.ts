@@ -1,5 +1,6 @@
-import { DynamoDB, config } from "aws-sdk";
+import { DynamoDB, RDS, config } from "aws-sdk";
 import { CORE_CONTABLE_TABLE, MARKETPLACE_TABLE, ROBOT_TABLE, USER_ADM_TABLE } from "./Constants";
+import { Bool } from "aws-sdk/clients/clouddirectory";
 
 export class AwsManager{
 
@@ -9,8 +10,61 @@ export class AwsManager{
 
         console.log("Initializing AWS configure")
         config.update({region: "us-east-1"})
-        const dynamoClient = new DynamoDB()
+        
+    }
 
+
+    private async mssql_init(){
+        const rdsClient = new RDS()
+
+        if (await this.check_rds(rdsClient, process.env.RDS_DB_NAME)){
+            return
+        }
+
+        const params = {
+            AllocatedStorage: 20, // Specify the allocated storage in GB
+            DBInstanceClass: 'db.t2.micro', // Specify the instance type
+            Engine: 'sqlserver-ex', // Specify the SQL Server edition
+            MasterUsername: process.env.RDS_USERNAME,
+            MasterUserPassword: process.env.RDS_PASSWORD,
+            DBInstanceIdentifier: process.env.RDS_DB_NAME,
+          };
+
+        rdsClient.createDBInstance(params, (err, data) => {
+        if (err) {
+            console.error("Error creating RDS instance:", err);
+        } else {
+            console.log("RDS instance created successfully:", data.DBInstance.DBInstanceIdentifier);
+        }
+        });
+    }
+
+    private async check_rds(rdsClient: RDS, databaseName: string): Promise<any> {
+        const params = {
+            DBInstanceIdentifier: databaseName,
+          };
+
+        rdsClient.describeDBInstances(params, (err, data) => {
+            if (err) {
+                console.error("Error checking RDS instance:", err);
+            } else {
+                const dbInstances = data.DBInstances;
+                
+                if (dbInstances.length === 0) {
+                    console.log(`RDS instance with identifier '${databaseName}' does not exist.`);
+                    return false
+                } else {
+                    console.log(`RDS instance with identifier '${databaseName}' already exists.`);
+                    return true
+                // You can further inspect 'dbInstances' to gather more information about the existing instance.
+                }
+            }
+        });
+    }
+
+    private dynamo_init(){
+        const dynamoClient = new DynamoDB()
+        console.log("Initializing DynamoDB configuration...")
         console.log("Checking tables...")
         // Verificamos si existe las distintas tablas. Si no, las creamos
         this.checkTable(ROBOT_TABLE, dynamoClient)
