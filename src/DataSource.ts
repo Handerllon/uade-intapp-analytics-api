@@ -7,7 +7,7 @@ dotenv.config({
   path: path.resolve(__dirname, '../.env')
 })
 
-const ProdDataSource = new DataSource({
+const MSSQLDataSource = new DataSource({
   type: "mssql",
   host: process.env.RDS_HOSTNAME,
   port: Number(process.env.RDS_PORT),
@@ -21,11 +21,11 @@ const ProdDataSource = new DataSource({
   subscribers: ["src/subscriber/**/*.ts"],
 });
 
-const getDataSource = () => {
-  switch (process.env.APP_ENV) {
-    case "production":
-      return ProdDataSource;
-  }
-}
+// const getDataSource = () => {
+//   switch (process.env.APP_ENV) {
+//     case "production":
+//       return ProdDataSource;
+//   }
+// }
 
-export { getDataSource };
+export { MSSQLDataSource };
