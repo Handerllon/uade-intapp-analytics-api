@@ -8,6 +8,7 @@ import { AwsManager } from './CloudIntegrator';
 import { MarketRouter } from './router/MarketRouter';
 import { CoreContRouter } from './router/CoreContRouter';
 import { AdmRouter } from './router/AdmRouter';
+import { MariaDbDataSource } from './DataSource';
 
 class App {
 
@@ -33,10 +34,13 @@ class App {
 
         // initialize AWS resources
         const awsManager: AwsManager = new AwsManager()
-        awsManager.initialize()
+        //awsManager.initialize()
 
         // initialize routes
         this.initializeRoutes();
+
+        const datasource = MariaDbDataSource;
+        datasource.initialize();
     }
 
     private initializeRoutes() {
