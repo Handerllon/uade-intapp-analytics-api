@@ -1,6 +1,7 @@
-import { DynamoDB, RDS, config } from "aws-sdk";
+import { Config, DynamoDB, RDS, config } from "aws-sdk";
 import { CORE_CONTABLE_TABLE, MARKETPLACE_TABLE, ROBOT_TABLE, USER_ADM_TABLE } from "./Constants";
 import { Bool } from "aws-sdk/clients/clouddirectory";
+import { CreateDBInstanceMessage } from "aws-sdk/clients/rds";
 
 export class AwsManager{
 
@@ -9,17 +10,39 @@ export class AwsManager{
     public initialize(){
 
         console.log("Initializing AWS configure")
-        config.update({region: "us-east-1"})
-
-        this.mssql_init()  
+        this.mariadb_init()
     }
 
+    // Este método funciona y se encarga de crear y configurar la instancia RDS de AWS.
+    private mariadb_init(){
+
+        const rds = new RDS();
+
+        const params: CreateDBInstanceMessage = {
+            DBInstanceIdentifier: 'mariadb-logs-db',
+            AllocatedStorage: 20,  // Storage size in GB
+            DBInstanceClass: 'db.t2.micro', // Choose an appropriate instance type
+            Engine: 'mariadb',
+            MasterUsername: 'thebatman',
+            MasterUserPassword: 'thejoker',
+            VpcSecurityGroupIds: ['sg-0bfcc79982ec72891'], // List of security group IDs,
+            AvailabilityZone: 'us-east-1a', // Choose the availability zone
+          };
+          
+          rds.createDBInstance(params, (err, data) => {
+            if (err) {
+              console.error('Error creating RDS instance:', err);
+            } else {
+              console.log('RDS instance created successfully:', data);
+            }
+          });          
+    }
 
     private async mssql_init(){
         try{
             const rdsClient = new RDS()
 
-            //if (await this.check_rds(rdsClient, process.env.RDS_DB_NAME)) throw new Error("RDS instance already exists").
+            if (await this.check_rds(rdsClient, process.env.RDS_DB_NAME)) throw new Error("RDS instance already exists")
 
             const params = {
                 DBInstanceIdentifier: 'instance01',
