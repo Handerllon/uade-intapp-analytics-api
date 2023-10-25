@@ -1,6 +1,7 @@
-import { DynamoDB, RDS, config } from "aws-sdk";
+import { Config, DynamoDB, RDS, config } from "aws-sdk";
 import { CORE_CONTABLE_TABLE, MARKETPLACE_TABLE, ROBOT_TABLE, USER_ADM_TABLE } from "./Constants";
 import { Bool } from "aws-sdk/clients/clouddirectory";
+import { CreateDBInstanceMessage } from "aws-sdk/clients/rds";
 
 export class AwsManager{
 
@@ -9,36 +10,75 @@ export class AwsManager{
     public initialize(){
 
         console.log("Initializing AWS configure")
-        config.update({region: "us-east-1"})
-        this.mssql_init()
+        this.mariadb_init()
     }
 
+    // Este método funciona y se encarga de crear y configurar la instancia RDS de AWS.
+    private mariadb_init(){
+
+        const rds = new RDS();
+
+        const params: CreateDBInstanceMessage = {
+            DBInstanceIdentifier: 'mariadb-logs-db',
+            AllocatedStorage: 20,  // Storage size in GB
+            DBInstanceClass: 'db.t2.micro', // Choose an appropriate instance type
+            Engine: 'mariadb',
+            MasterUsername: 'thebatman',
+            MasterUserPassword: 'thejoker',
+            VpcSecurityGroupIds: ['sg-0bfcc79982ec72891'], // List of security group IDs,
+            AvailabilityZone: 'us-east-1a', // Choose the availability zone
+          };
+          
+          rds.createDBInstance(params, (err, data) => {
+            if (err) {
+              console.error('Error creating RDS instance:', err);
+            } else {
+              console.log('RDS instance created successfully:', data);
+            }
+          });          
+    }
 
     private async mssql_init(){
-        const rdsClient = new RDS()
+        try{
+            const rdsClient = new RDS()
 
-        console.log("Initializing RDS configuration...")
+            if (await this.check_rds(rdsClient, process.env.RDS_DB_NAME)) throw new Error("RDS instance already exists")
 
-        if (await this.check_rds(rdsClient, process.env.RDS_DB_NAME)){
-            return
+            const params = {
+                DBInstanceIdentifier: 'instance01',
+                AllocatedStorage: 10,  // Adjust the storage size as needed
+                DBInstanceClass: 'db.t2.micro',  // Choose the appropriate instance type
+                Engine: 'sqlserver',  // Specify the MSSQL engine
+                MasterUsername: 'batmanthebest',
+                MasterUserPassword: 'YlX|vd/}Mr8wytZQ',
+                MultiAZ: false,  // Set to true if you want Multi-AZ deployment
+                DBName: 'logsdb',  // Name of the new database
+                BackupRetentionPeriod: 7,  // Set backup retention period
+                PreferredBackupWindow: '00:00-00:30',  // Set preferred backup window
+                PubliclyAccessible: true,  // Adjust as needed
+                StorageType: 'gp2',  // Choose the storage type
+                //VpcSecurityGroupIds: ['security-group-id'],  // Specify security group(s)
+                Tags: [
+                    {
+                    Key: 'Name',
+                    Value: 'Log DB',
+                    },
+                ],
+            };
+
+             rdsClient.createDBInstance(params, (err, data) => {
+                if (err) {
+                    console.error("Error creating RDS instance:", err);
+                } else {
+                    console.log("RDS instance created successfully:", data.DBInstance.DBInstanceIdentifier);
+                }
+                console.log('db creada...')
+            });
+
+
+        }catch(err){
+            console.error(err)
         }
-
-        const params = {
-            AllocatedStorage: 20, // Specify the allocated storage in GB
-            DBInstanceClass: 'db.t2.micro', // Specify the instance type
-            Engine: 'sqlserver-ex', // Specify the SQL Server edition
-            MasterUsername: process.env.RDS_USERNAME,
-            MasterUserPassword: process.env.RDS_PASSWORD,
-            DBInstanceIdentifier: process.env.RDS_DB_NAME,
-          };
-
-        rdsClient.createDBInstance(params, (err, data) => {
-        if (err) {
-            console.error("Error creating RDS instance:", err);
-        } else {
-            console.log("RDS instance created successfully:", data.DBInstance.DBInstanceIdentifier);
-        }
-        });
     }
 
     private async check_rds(rdsClient: RDS, databaseName: string): Promise<any> {
