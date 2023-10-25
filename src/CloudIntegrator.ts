@@ -10,12 +10,14 @@ export class AwsManager{
 
         console.log("Initializing AWS configure")
         config.update({region: "us-east-1"})
-        
+        this.mssql_init()
     }
 
 
     private async mssql_init(){
         const rdsClient = new RDS()
+
+        console.log("Initializing RDS configuration...")
 
         if (await this.check_rds(rdsClient, process.env.RDS_DB_NAME)){
             return
