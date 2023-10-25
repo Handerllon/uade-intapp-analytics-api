@@ -9,6 +9,7 @@ import { MarketRouter } from './router/MarketRouter';
 import { CoreContRouter } from './router/CoreContRouter';
 import { AdmRouter } from './router/AdmRouter';
 import { MariaDbDataSource } from './DataSource';
+import { config } from "aws-sdk"
 
 class App {
 
@@ -39,6 +40,7 @@ class App {
         // initialize routes
         this.initializeRoutes();
 
+        //config.update({region: "us-east-1c"})
         const datasource = MariaDbDataSource;
         datasource.initialize();
     }

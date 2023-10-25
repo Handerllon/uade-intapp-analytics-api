@@ -4,16 +4,20 @@ import { RobotDelivery } from '../entity/Robots/RobotDelivery.entity';
 import { RobotStatus } from '../entity/Robots/RobotStatus.entity';
 import { ROBOT_TABLE } from '../Constants';
 import { v4 } from 'uuid'
+import { Repository, DataSource } from "typeorm"
+import { MariaDbDataSource } from '../DataSource';
 
 export default class RobotService {
-    private client: DynamoDB.DocumentClient
+    private repository_robot_delivery: Repository<RobotDelivery>
+    private repository_robot_status: Repository<RobotStatus>
 
     constructor(){
         // Agregamos esto ya que se generan errores si no
         // Solo funciona asi, no se por que, cuando viene la region por
         // variable de entorno tira errores
-        config.update({region: "us-east-1"})
-        this.client = new DynamoDB.DocumentClient();
+        const ds: DataSource = MariaDbDataSource
+        this.repository_robot_delivery = ds.manager.getRepository(RobotDelivery);
+        this.repository_robot_status = ds.manager.getRepository(RobotStatus);
     }
 
     async createRobotDeliveryEvent(data: {robotName: string, neighbourhoodLot: number, itemName: string}): Promise<any>{
@@ -27,12 +31,8 @@ export default class RobotService {
         item.neighbourhoodLot = data.neighbourhoodLot
         item.itemName = data.itemName
 
-        const params = {
-            TableName: ROBOT_TABLE,
-            Item: item,
-        };
+        const res = await this.repository_robot_delivery.save(item)
 
-        const res = await this.client.put(params).promise()
         return res;
     }
 
@@ -47,12 +47,7 @@ export default class RobotService {
         item.robotStatus = data.robotStatus
         item.batteryLeft = data.batteryLeft
 
-        const params = {
-            TableName: ROBOT_TABLE,
-            Item: item,
-        };
-
-        const res = await this.client.put(params).promise()
+        const res = await this.repository_robot_status.save(item)
         return res;
     }
 }

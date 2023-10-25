@@ -1,18 +1,21 @@
 // services/DynamoDBService.ts
 import { DynamoDB, config } from 'aws-sdk';
 import { CORE_CONTABLE_TABLE } from '../Constants';
+import { Repository, DataSource } from 'typeorm';
 import { v4 } from 'uuid'
 import { CoreContPurchase } from '../entity/Core Contable/CoreContPurchase.entity';
+import { MariaDbDataSource } from '../DataSource';
 
 export default class CoreContService {
-    private client: DynamoDB.DocumentClient
+    private repository_purchase: Repository<CoreContPurchase>
+
 
     constructor(){
         // Agregamos esto ya que se generan errores si no
         // Solo funciona asi, no se por que, cuando viene la region por
         // variable de entorno tira errores
-        config.update({region: "us-east-1"})
-        this.client = new DynamoDB.DocumentClient();
+        const ds: DataSource = MariaDbDataSource
+        this.repository_purchase = ds.manager.getRepository(CoreContPurchase);
     }
 
     async createPurchaseEvent(data: {transactionId: string, paymentMethod: string, paymentAmount: number}): Promise<any>{
@@ -26,12 +29,7 @@ export default class CoreContService {
         item.paymentMethod = data.paymentMethod
         item.paymentAmount = data.paymentAmount
 
-        const params = {
-            TableName: CORE_CONTABLE_TABLE,
-            Item: item,
-        };
-
-        const res = await this.client.put(params).promise()
+        const res = await this.repository_purchase.save(item)
         return res;
     }
 }
