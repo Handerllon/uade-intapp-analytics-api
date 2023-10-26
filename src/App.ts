@@ -48,9 +48,9 @@ class App {
         const datasource = MariaDbDataSource;
         datasource.initialize();
 
-        this.initializeFileSystem();
+        //this.initializeFileSystem();
         
-        initPythonEnv()
+        //initPythonEnv()
     }
 
     private initializeRoutes() {
