@@ -30,7 +30,6 @@ export default class RobotService {
         item.neighbourhoodLot = data.neighbourhoodLot
         item.itemName = data.itemName
 
-        console.log(item)
         const res = await this.repository_robot_delivery.save(item)
 
         return res;
