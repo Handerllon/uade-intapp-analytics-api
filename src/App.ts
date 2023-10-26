@@ -10,6 +10,10 @@ import { CoreContRouter } from './router/CoreContRouter';
 import { AdmRouter } from './router/AdmRouter';
 import { MariaDbDataSource } from './DataSource';
 import { config } from "aws-sdk"
+import { DeepRacerAnalysisRouter } from './router/DeepRacerAnalysisRouter';
+import { FILE_SYSTEM_DIRECTORY } from "./Constants"
+import { createDirectoryStructure } from "./share/system/directory"
+import { initPythonEnv } from './share/system/process';
 
 class App {
 
@@ -43,6 +47,10 @@ class App {
         //config.update({region: "us-east-1c"})
         const datasource = MariaDbDataSource;
         datasource.initialize();
+
+        this.initializeFileSystem();
+        
+        initPythonEnv()
     }
 
     private initializeRoutes() {
@@ -58,6 +66,11 @@ class App {
         new MarketRouter().routes(this.router)
         new CoreContRouter().routes(this.router)
         new AdmRouter().routes(this.router)
+        new DeepRacerAnalysisRouter().routes(this.router)
+    }
+
+    private initializeFileSystem() {
+        createDirectoryStructure(FILE_SYSTEM_DIRECTORY);
     }
 
     public listen(): void {
