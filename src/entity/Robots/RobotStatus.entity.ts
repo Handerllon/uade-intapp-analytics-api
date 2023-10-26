@@ -8,7 +8,7 @@ export class RobotStatus {
   eventId: string;
 
   @Column()
-  createdDate: number;
+  createdDate: Date;
 
   @Column({default:"status"})
   eventName: string

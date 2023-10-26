@@ -25,8 +25,7 @@ export default class AdmService {
     async createUserAuthEvent(data: {username: string, organization: string}): Promise<any>{
         
         const item = new AdmUserAuth
-        item.eventId = v4()
-        item.createdDate = new Date().getTime()
+        item.createdDate = new Date()
         item.eventName = "userAuthentication"
 
         item.username = data.username
@@ -39,8 +38,7 @@ export default class AdmService {
     async createUserCreationEvent(data: {username: string, organization: string}): Promise<any>{
         
         const item = new AdmUserCreate
-        item.eventId = v4()
-        item.createdDate = new Date().getTime()
+        item.createdDate = new Date()
         item.eventName = "userCreation"
 
         item.username = data.username

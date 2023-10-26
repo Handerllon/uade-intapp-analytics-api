@@ -21,8 +21,7 @@ export default class CoreContService {
     async createPurchaseEvent(data: {transactionId: string, paymentMethod: string, paymentAmount: number}): Promise<any>{
         
         const item = new CoreContPurchase
-        item.eventId = v4()
-        item.createdDate = new Date().getTime()
+        item.createdDate = new Date()
         item.eventName = "purchase"
 
         item.transactionId = data.transactionId

@@ -8,7 +8,7 @@ export class AdmUserAuth {
   eventId: string;
 
   @Column()
-  createdDate: number;
+  createdDate: Date;
 
   @Column({default:"userAuthentication"})
   eventName: string

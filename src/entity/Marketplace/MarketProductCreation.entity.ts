@@ -8,7 +8,7 @@ export class MarketProductCreate {
   eventId: string;
 
   @Column()
-  createdDate: number;
+  createdDate: Date;
 
   @Column({default:"productCreate"})
   eventName: string

@@ -8,7 +8,7 @@ export class MarketProductPurchase {
   eventId: string;
 
   @Column()
-  createdDate: number;
+  createdDate: Date;
 
   @Column({default:"purchase"})
   eventName: string

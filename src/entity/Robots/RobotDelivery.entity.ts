@@ -8,7 +8,7 @@ export class RobotDelivery {
   eventId: string;
 
   @Column()
-  createdDate: number;
+  createdDate: Date;
 
   @Column({default:"delivery"})
   eventName: string

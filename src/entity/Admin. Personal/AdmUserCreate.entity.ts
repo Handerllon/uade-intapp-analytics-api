@@ -8,7 +8,7 @@ export class AdmUserCreate {
   eventId: string;
 
   @Column()
-  createdDate: number;
+  createdDate: Date;
 
   @Column({default:"userCreation"})
   eventName: string

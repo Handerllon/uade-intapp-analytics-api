@@ -23,14 +23,14 @@ export default class RobotService {
     async createRobotDeliveryEvent(data: {robotName: string, neighbourhoodLot: number, itemName: string}): Promise<any>{
         
         const item = new RobotDelivery
-        item.eventId = v4()
-        item.createdDate = new Date().getTime()
+        item.createdDate = new Date()
         item.eventName = "delivery"
 
         item.robotName = data.robotName
         item.neighbourhoodLot = data.neighbourhoodLot
         item.itemName = data.itemName
 
+        console.log(item)
         const res = await this.repository_robot_delivery.save(item)
 
         return res;
@@ -39,8 +39,7 @@ export default class RobotService {
     async createRobotStatusEvent(data: {robotName: string, robotStatus: string, batteryLeft: number}): Promise<any>{
         
         const item = new RobotStatus
-        item.eventId = v4()
-        item.createdDate = new Date().getTime()
+        item.createdDate = new Date()
         item.eventName = "status"
 
         item.robotName = data.robotName

@@ -26,8 +26,7 @@ export default class MarketService {
     async createProductPurchaseEvent(data: {transactionId: string, marketplaceName: string, productName: string}): Promise<any>{
         
         const item = new MarketProductPurchase
-        item.eventId = v4()
-        item.createdDate = new Date().getTime()
+        item.createdDate = new Date()
         item.eventName = "purchase"
 
         item.transactionId = data.transactionId
@@ -41,8 +40,7 @@ export default class MarketService {
     async createProductCreationEvent(data: {productCategory: string, marketplaceName: string, productName: string}): Promise<any>{
         
         const item = new MarketProductCreate
-        item.eventId = v4()
-        item.createdDate = new Date().getTime()
+        item.createdDate = new Date()
         item.eventName = "productCreate"
 
         item.productCategory = data.productCategory
@@ -57,7 +55,7 @@ export default class MarketService {
         
         const item = new MarketCreation
         item.eventId = v4()
-        item.createdDate = new Date().getTime()
+        item.createdDate = new Date()
         item.eventName = "marketplaceCreate"
 
         item.marketplaceName = data.marketplaceName
