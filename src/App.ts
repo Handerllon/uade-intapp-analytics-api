@@ -11,8 +11,9 @@ import { AdmRouter } from './router/AdmRouter';
 import { MariaDbDataSource } from './DataSource';
 import { config } from "aws-sdk"
 import { DeepRacerAnalysisRouter } from './router/DeepRacerAnalysisRouter';
-import { FILE_SYSTEM_DIRECTORY } from './Constants'
-import { createDirectoryStructure } from './utils/file-system';
+import { FILE_SYSTEM_DIRECTORY } from "./Constants"
+import { createDirectoryStructure } from "./share/system/directory"
+import { initPythonEnv } from './share/system/process';
 
 class App {
 
@@ -48,6 +49,8 @@ class App {
         datasource.initialize();
 
         this.initializeFileSystem();
+        
+        initPythonEnv()
     }
 
     private initializeRoutes() {

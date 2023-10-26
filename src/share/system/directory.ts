@@ -1,6 +1,7 @@
-export const createDirectoryStructure = (directory, parentPath = '') => {
-    const fs = require('fs');
-    const path = require('path');
+const fs = require('fs');
+const path = require('path');
+
+export const createDirectoryStructure = (directory, parentPath = './boards') => {
 
     for (const dirName in directory) {
         const dirPath = path.join(parentPath, dirName);
