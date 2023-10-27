@@ -12,7 +12,9 @@ export class DeepRacerAnalysisRouter {
 
     public routes(router: Router): void {
         router
-            .get(`${this.prefix}/training`, this.controller.index)
+            .get(`${this.prefix}/training`, this.controller.getTraining)
+            .get(`${this.prefix}/visual`, this.controller.getVisual)
+            .get(`${this.prefix}/metrics`, this.controller.getMetrics)
             .post(`${this.prefix}/logs`, logUploadMiddleware.single('log-file'), this.controller.upload)
             .post(`${this.prefix}/metrics`, metricUploadMiddleware.single('metric-file'), this.controller.upload)
             .post(`${this.prefix}/sim-trace`, simtraceUploadMiddleware.single('sim-trace-file'), this.controller.upload)
