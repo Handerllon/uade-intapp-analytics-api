@@ -54,7 +54,6 @@ export default class MarketService {
     async createMarketCreationEvent(data: {marketplaceName: string}): Promise<any>{
         
         const item = new MarketCreation
-        item.eventId = v4()
         item.createdDate = new Date()
         item.eventName = "marketplaceCreate"
 
