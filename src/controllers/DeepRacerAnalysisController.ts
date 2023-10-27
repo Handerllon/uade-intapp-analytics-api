@@ -1,6 +1,6 @@
 const fs = require('fs');
 import { Request, Response } from "express";
-import { generateTrainingNotebook, initPythonEnv } from "../share/system/process";
+import { generateMetricsNotebook, generateTrainingNotebook, generateVisualNotebook, initPythonEnv } from "../share/system/process";
 
 export class DeepRacerAnalysisController {
 
@@ -24,9 +24,9 @@ export class DeepRacerAnalysisController {
     }
 
     async getMetrics(req: Request, res: Response): Promise<any> {
-        const filePath = 'boards/html/Training_analysis.html';
+        const filePath = 'boards/html/Metrics.html';
         try {
-            generateTrainingNotebook()
+            generateMetricsNotebook()
 
             fs.readFile(filePath, 'utf8', (err, data) => {
                 if (err) {
@@ -42,9 +42,9 @@ export class DeepRacerAnalysisController {
     }
 
     async getVisual(req: Request, res: Response): Promise<any> {
-        const filePath = 'boards/html/Training_analysis.html';
+        const filePath = 'boards/html/Visual_Analysis.html';
         try {
-            generateTrainingNotebook()
+            generateVisualNotebook()
 
             fs.readFile(filePath, 'utf8', (err, data) => {
                 if (err) {
