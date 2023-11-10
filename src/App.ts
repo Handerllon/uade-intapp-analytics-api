@@ -14,6 +14,7 @@ import { DeepRacerAnalysisRouter } from './router/DeepRacerAnalysisRouter';
 import { FILE_SYSTEM_DIRECTORY } from "./Constants"
 import { createDirectoryStructure } from "./share/system/directory"
 import { initPythonEnv } from './share/system/process';
+import { EDA } from './EdaIntegrator';
 
 class App {
 
@@ -38,8 +39,12 @@ class App {
         this.app.use(express.urlencoded({ extended: true }));
 
         // initialize AWS resources
-        const awsManager: AwsManager = new AwsManager()
+        //const awsManager: AwsManager = new AwsManager()
         //awsManager.initialize()
+
+        // EDA Connection
+        const edaIntegrator: EDA = new EDA()
+        edaIntegrator.initialize()
 
         // initialize routes
         this.initializeRoutes();
@@ -49,7 +54,6 @@ class App {
         datasource.initialize();
 
         this.initializeFileSystem();
-        
         initPythonEnv()
     }
 
