@@ -1,0 +1,1 @@
+{"content":"{\"sender\":\"robots\",\"created_at\":1700494902253,\"event_name\":\"wrong_event_name\",\"data\":{\"purchase_id\":1234123,\"status\":\"delivered\"}}","from":"/topic/robots"}

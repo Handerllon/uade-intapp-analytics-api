@@ -1,7 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
+export enum Status {
+  DELIVERED = "delivered"
+}
+
 @Entity()
-export class AdmUserAuth {
+export class DeliverySuccessful {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
@@ -10,13 +14,16 @@ export class AdmUserAuth {
   @Column()
   createdDate: Date;
 
-  @Column({default:"userAuthentication"})
+  @Column({default:"delivery_successful"})
   eventName: string
 
-  @Column()
-  username: string
+  @Column({default:"robots"})
+  eventSender: string
 
   @Column()
-  organization: string
+  purchaseId: number;
+
+  @Column()
+  status: string;
 
 }

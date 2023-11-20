@@ -3,18 +3,13 @@ import * as dotenv from 'dotenv';
 import * as bodyParser from "body-parser"
 import * as cors from 'cors';
 import path = require('path');
-import { RobotRouter } from './router/RobotRouter';
-import { AwsManager } from './CloudIntegrator';
-import { MarketRouter } from './router/MarketRouter';
-import { CoreContRouter } from './router/CoreContRouter';
-import { AdmRouter } from './router/AdmRouter';
 import { MariaDbDataSource } from './DataSource';
 import { config } from "aws-sdk"
 import { DeepRacerAnalysisRouter } from './router/DeepRacerAnalysisRouter';
 import { FILE_SYSTEM_DIRECTORY } from "./Constants"
 import { createDirectoryStructure } from "./share/system/directory"
 import { initPythonEnv } from './share/system/process';
-import { EDA } from './EdaIntegrator';
+import { EDA } from './lib/EdaIntegrator';
 
 class App {
 
@@ -42,19 +37,19 @@ class App {
         //const awsManager: AwsManager = new AwsManager()
         //awsManager.initialize()
 
-        // EDA Connection
-        const edaIntegrator: EDA = new EDA()
-        edaIntegrator.initialize()
-
-        // initialize routes
-        this.initializeRoutes();
-
         //config.update({region: "us-east-1c"})
         const datasource = MariaDbDataSource;
         datasource.initialize();
 
-        this.initializeFileSystem();
-        initPythonEnv()
+        // EDA Connection
+        const edaIntegrator: EDA = new EDA()
+        edaIntegrator.initialize()
+
+        //this.initializeFileSystem();
+        //initPythonEnv()
+
+        // initialize routes
+        this.initializeRoutes();
     }
 
     private initializeRoutes() {
@@ -66,11 +61,7 @@ class App {
         });
 
         this.app.use('/api/v1/', this.router)
-        new RobotRouter().routes(this.router)
-        new MarketRouter().routes(this.router)
-        new CoreContRouter().routes(this.router)
-        new AdmRouter().routes(this.router)
-        new DeepRacerAnalysisRouter().routes(this.router)
+        //new DeepRacerAnalysisRouter().routes(this.router)
     }
 
     private initializeFileSystem() {

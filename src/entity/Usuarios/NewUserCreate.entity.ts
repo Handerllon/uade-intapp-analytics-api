@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class MarketProductCreate {
+export class NewUserCreate {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
@@ -10,15 +10,24 @@ export class MarketProductCreate {
   @Column()
   createdDate: Date;
 
-  @Column({default:"productCreate"})
+  @Column({default:"new_user_create"})
   eventName: string
 
-  @Column()
-  marketplaceName: string
+  @Column({default:"usuarios"})
+  eventSender: string
 
   @Column()
-  productName: string
+  username: string;
 
   @Column()
-  productCategory: string
+  password: string;
+
+  @Column()
+  name: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  document: string;
 }

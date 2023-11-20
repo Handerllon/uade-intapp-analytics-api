@@ -1,5 +1,5 @@
 import { Config, DynamoDB, RDS, config } from "aws-sdk";
-import { CORE_CONTABLE_TABLE, MARKETPLACE_TABLE, ROBOT_TABLE, USER_ADM_TABLE } from "./Constants";
+import { CORE_CONTABLE_TABLE, MARKETPLACE_TABLE, ROBOT_TABLE, USER_ADM_TABLE } from "../Constants";
 import { Bool } from "aws-sdk/clients/clouddirectory";
 import { CreateDBInstanceMessage } from "aws-sdk/clients/rds";
 
