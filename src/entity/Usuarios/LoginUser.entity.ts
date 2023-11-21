@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class NewUserCreate {
+export class LoginUser {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
@@ -10,7 +10,7 @@ export class NewUserCreate {
   @Column()
   createdDate: Date;
 
-  @Column({default:"new_user_create"})
+  @Column({default:"login_user"})
   eventName: string
 
   @Column({default:"usuarios"})

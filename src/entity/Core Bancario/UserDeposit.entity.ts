@@ -1,7 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
+export enum Currency {
+    ARS = "ARS",
+    ETH = "ETH",
+    BTC = "BTC"
+}
+
 @Entity()
-export class NewUserCreate {
+export class UserDeposit {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
@@ -10,27 +16,18 @@ export class NewUserCreate {
   @Column()
   createdDate: Date;
 
-  @Column({default:"new_user_create"})
+  @Column({default:"user_deposit"})
   eventName: string
 
-  @Column({default:"usuarios"})
+  @Column({default:"core-bancario"})
   eventSender: string
 
   @Column()
   username: string;
 
   @Column()
-  password: string;
+  amount: string;
 
-  @Column()
-  name: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  document: string;
-
-  @Column()
-  address: string;
+  @Column({type: "enum", enum: Currency})
+  currency: string;
 }

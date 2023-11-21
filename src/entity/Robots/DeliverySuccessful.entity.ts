@@ -26,4 +26,10 @@ export class DeliverySuccessful {
   @Column()
   status: string;
 
+  @Column()
+  deliveryDate: Date;
+
+  @Column()
+  requestDate: Date;
+
 }

@@ -1,5 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
+export enum Groups {
+    ADMINISTRADORES = "500",
+    USUARIOS = "501",
+    MARKETPLACE = "502",
+    CONTABLE = "504",
+    ROBOTS = "505",
+    ANALITICA = "507",
+    BANCARIO = "508",
+    CEO = "509"
+}
+
 @Entity()
 export class NewUserCreate {
 
@@ -13,7 +24,7 @@ export class NewUserCreate {
   @Column({default:"new_user_create"})
   eventName: string
 
-  @Column({default:"usuarios"})
+  @Column({default:"admin-personal"})
   eventSender: string
 
   @Column()
@@ -23,7 +34,10 @@ export class NewUserCreate {
   password: string;
 
   @Column()
-  name: string;
+  nombre: string;
+
+  @Column()
+  apellido: string;
 
   @Column()
   email: string;
@@ -31,6 +45,6 @@ export class NewUserCreate {
   @Column()
   document: string;
 
-  @Column()
-  address: string;
+  @Column({type: "enum", enum: Groups})
+  grupo: string;
 }

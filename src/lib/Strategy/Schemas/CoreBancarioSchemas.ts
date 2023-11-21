@@ -17,5 +17,15 @@ export interface PaymentAckSchema {
         purchase_id: number,
         payment_method: string
     }
+}
 
+export interface UserDepositSchema {
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: {
+        username: string,
+        amount: string,
+        currency: string
+    }
 }

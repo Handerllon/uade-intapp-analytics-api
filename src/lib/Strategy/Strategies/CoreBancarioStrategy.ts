@@ -1,8 +1,9 @@
 import { Strategy } from "../Strategy";
-import { PaymentAckSchema } from "../Schemas/CoreBancarioSchemas";
+import { PaymentAckSchema, UserDepositSchema } from "../Schemas/CoreBancarioSchemas";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
 import { PaymentAck } from "../../../entity/Core Bancario/PaymentAck.entity";
+import { UserDeposit } from "../../../entity/Core Bancario/UserDeposit.entity";
 
 export class CoreBancarioStrategy implements Strategy{
 
@@ -17,6 +18,8 @@ export class CoreBancarioStrategy implements Strategy{
             switch(data["event_name"]){
                 case "payment_ack":
                     this.paymentAck(data)
+                case "user_deposit":
+                    this.userDeposit(data)
                 default:
                     throw new Error()
             }
@@ -24,7 +27,6 @@ export class CoreBancarioStrategy implements Strategy{
         catch (err){
             throw new Error("Unprocessed core-bancario event, logging...")
         }
-        
     }
 
     private async paymentAck(schema: PaymentAckSchema){
@@ -46,6 +48,18 @@ export class CoreBancarioStrategy implements Strategy{
         item.paymentMethod = schema.data.payment_method
 
         const res = await this.service.insert(PaymentAck, item)
+        console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+    }
+
+    private async userDeposit(schema: UserDepositSchema){
+        const item = new UserDeposit
+        item.createdDate = new Date(schema.created_at)
+        
+        item.username = schema.data.username
+        item.amount = schema.data.amount
+        item.currency = schema.data.currency
+
+        const res = await this.service.insert(UserDeposit, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 }
