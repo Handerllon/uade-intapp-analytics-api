@@ -20,3 +20,13 @@ export interface BillGenerationSchema {
     }
 
 }
+
+export interface EmployeePaymentSchema {
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: {
+        idEmpleado: string,
+        salary: string,
+    }
+}

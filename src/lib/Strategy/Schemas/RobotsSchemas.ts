@@ -35,3 +35,23 @@ export interface RobotUpdateSchema {
         deliveryId: string,
     }
 }
+
+export interface RobotRepairSchema {
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: {
+        robot: {
+            id: string,
+            x: string,
+            y: string,
+            name: string,
+            velocity: string,
+            battery: string,
+            robotStatus: string,
+            deliveryId: string,
+        }
+        user: string,
+        previousRobotStatus: string
+    }
+}

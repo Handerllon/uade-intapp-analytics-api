@@ -2,7 +2,7 @@ import { Strategy } from "../Strategy";
 import { LoginUserSchema, NewUserCreateSchema } from "../Schemas/UsuariosSchemas";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
-import { NewUserCreate } from "../../../entity/Usuarios/NewUserCreate.entity";
+import { UsuariosNewUserCreate } from "../../../entity/Usuarios/UsuariosNewUserCreate.entity";
 import { LoginUser } from "../../../entity/Usuarios/LoginUser.entity";
 
 export class UsuariosStrategy implements Strategy{
@@ -30,7 +30,7 @@ export class UsuariosStrategy implements Strategy{
     }
 
     private async newUserCreate(schema: NewUserCreateSchema){
-        const item = new NewUserCreate
+        const item = new UsuariosNewUserCreate
         item.createdDate = new Date(schema.created_at)
 
         item.username = schema.data.username
@@ -40,7 +40,7 @@ export class UsuariosStrategy implements Strategy{
         item.document = schema.data.document
         item.address = schema.data.address
 
-        const res = await this.service.insert(NewUserCreate, item)
+        const res = await this.service.insert(UsuariosNewUserCreate, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 

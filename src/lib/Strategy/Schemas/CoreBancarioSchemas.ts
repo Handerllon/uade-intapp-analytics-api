@@ -29,3 +29,24 @@ export interface UserDepositSchema {
         currency: string
     }
 }
+
+export interface PaymentOkSchema {
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: {
+        dni: string,
+        monto: string,
+        result: string
+    }
+}
+
+export interface DeepRacerPaymentOkSchema {
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: {
+        payment_date: string,
+        total_amount: string
+    }
+}

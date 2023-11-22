@@ -1,9 +1,11 @@
 import { Strategy } from "../Strategy";
-import { PaymentAckSchema, UserDepositSchema } from "../Schemas/CoreBancarioSchemas";
+import { DeepRacerPaymentOkSchema, PaymentAckSchema, PaymentOkSchema, UserDepositSchema } from "../Schemas/CoreBancarioSchemas";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
 import { PaymentAck } from "../../../entity/Core Bancario/PaymentAck.entity";
 import { UserDeposit } from "../../../entity/Core Bancario/UserDeposit.entity";
+import { PaymentOk } from "../../../entity/Core Bancario/PaymentOk.entity";
+import { DeepRacerPaymentOk } from "../../../entity/Core Bancario/DeepRacerPaymentOk.entity";
 
 export class CoreBancarioStrategy implements Strategy{
 
@@ -20,6 +22,10 @@ export class CoreBancarioStrategy implements Strategy{
                     this.paymentAck(data)
                 case "user_deposit":
                     this.userDeposit(data)
+                case "payment_ok":
+                    this.paymentOk(data)
+                case "deep_racer_payment_ok":
+                    this.deepRacerPaymentOk(data)
                 default:
                     throw new Error()
             }
@@ -61,5 +67,22 @@ export class CoreBancarioStrategy implements Strategy{
 
         const res = await this.service.insert(UserDeposit, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+    }
+
+    private async paymentOk(schema: PaymentOkSchema){
+        const item = new PaymentOk
+        item.createdDate = new Date(schema.created_at)
+
+        item.dni = schema.data.dni
+        item.monto = schema.data.monto
+        item.result = schema.data.result
+    }
+
+    private async deepRacerPaymentOk(schema: DeepRacerPaymentOkSchema){
+        const item = new DeepRacerPaymentOk
+        item.createdDate = new Date(schema.created_at)
+
+        item.paymentDate = new Date(schema.data.payment_date)
+        item.totalAmount = schema.data.total_amount
     }
 }

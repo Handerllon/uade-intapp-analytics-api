@@ -1,10 +1,11 @@
 import { Strategy } from "../Strategy";
-import { DeliveryUpdateSchema, DeliverySuccessfulSchema, RobotUpdateSchema } from "../Schemas/RobotsSchemas";
+import { DeliveryUpdateSchema, DeliverySuccessfulSchema, RobotUpdateSchema, RobotRepairSchema } from "../Schemas/RobotsSchemas";
 import { DeliveryUpdate } from "../../../entity/Robots/DeliveryUpdate.entity";
 import { DeliverySuccessful } from "../../../entity/Robots/DeliverySuccessful.entity";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
 import { RobotUpdate } from "../../../entity/Robots/RobotStatus.entity";
+import { RobotRepair } from "../../../entity/Robots/RobotRepair.entity";
 
 export class RobotStrategy implements Strategy{
 
@@ -23,6 +24,8 @@ export class RobotStrategy implements Strategy{
                     this.deliverySuccessful(data)
                 case "robot_update":
                     this.robotUpdate(data)
+                case "robot_repair":
+                    this.robotRepair(data)
                 default:
                     throw new Error()
             }
@@ -70,6 +73,25 @@ export class RobotStrategy implements Strategy{
         item.deliveryId = schema.data.deliveryId
 
         const res = await this.service.insert(RobotUpdate, item)
+        console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+    }
+
+    private async robotRepair(schema: RobotRepairSchema){
+        const item = new RobotRepair
+        item.createdDate = new Date(schema.created_at)
+
+        item.robotId = schema.data.robot.id
+        item.robotX = schema.data.robot.x
+        item.robotY = schema.data.robot.y
+        item.robotName = schema.data.robot.name
+        item.robotVelocity = schema.data.robot.velocity
+        item.robotBattery = schema.data.robot.battery
+        item.robotStatus = schema.data.robot.robotStatus
+        item.robotDeliveryId = schema.data.robot.deliveryId
+        item.user = schema.data.user
+        item.previousRobotStatus = schema.data.previousRobotStatus
+
+        const res = await this.service.insert(RobotRepair, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 }

@@ -1,8 +1,9 @@
 import { Strategy } from "../Strategy";
-import { BillGenerationSchema } from "../Schemas/CoreContableSchemas";
+import { BillGenerationSchema, EmployeePaymentSchema } from "../Schemas/CoreContableSchemas";
 import { BillGeneration } from "../../../entity/Core Contable/BillGeneration.entity";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
+import { CoreContableEmployeePayment } from "../../../entity/Core Contable/CoreContableEmployeePayment.entity";
 
 export class CoreContableStrategy implements Strategy{
 
@@ -17,6 +18,8 @@ export class CoreContableStrategy implements Strategy{
             switch(data["event_name"]){
                 case "bill_generation":
                     this.billGeneration(data)
+                case "employee_payment":
+                    this.employeePayment(data)
                 default:
                     throw new Error()
             }
@@ -46,6 +49,17 @@ export class CoreContableStrategy implements Strategy{
         item.billURL = schema.data.bill_url
 
         const res = await this.service.insert(BillGeneration, item)
+        console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+    }
+
+    private async employeePayment(schema: EmployeePaymentSchema){
+        const item = new CoreContableEmployeePayment
+        item.createdDate = new Date(schema.created_at)
+
+        item.salary = schema.data.salary
+        item.document = schema.data.idEmpleado
+
+        const res = await this.service.insert(CoreContableEmployeePayment, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 }
