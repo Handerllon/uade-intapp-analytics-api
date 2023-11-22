@@ -2,7 +2,6 @@ name: Upload Website
 
 on:
   push:
-    #branches: [ "main" ]
     branches: [ "gabriel" ]
   pull_request:
     branches: [ "gabriel" ]
