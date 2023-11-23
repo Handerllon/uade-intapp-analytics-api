@@ -1,9 +1,10 @@
 import { Strategy } from "../Strategy";
 import DatabaseService from "../../../services/DatabaseService";
-import { EmployeePaymentSchema, NewUserCreateSchema, UserActivitySchema } from "../Schemas/AdminPersonalSchemas";
+import { EmployeePaymentSchema, GroupsAnalyticsSchema, NewUserCreateSchema, UserActivitySchema } from "../Schemas/AdminPersonalSchemas";
 import { AdmNewUserCreate } from "../../../entity/Admin. Personal/AdmNewUserCreate.entity";
 import { AdmUserActivity } from "../../../entity/Admin. Personal/AdmUserActivity.entity";
 import { AdmEmployeePayment } from "../../../entity/Admin. Personal/AdmEmployeePayment.entity";
+import { AdmGroupsAnalytics } from "../../../entity/Admin. Personal/AdmGroupsAnalytics.entity";
 
 export class AdminPersonalStrategy implements Strategy{
 
@@ -24,6 +25,9 @@ export class AdminPersonalStrategy implements Strategy{
                     break
                 case "employee_payment":
                     this.employeePayment(data)
+                    break
+                case "groups_analytics":
+                    this.groupsAnalytics(data)
                     break
                 default:
                     throw new Error()
@@ -73,5 +77,18 @@ export class AdminPersonalStrategy implements Strategy{
 
         const res = await this.service.insert(AdmEmployeePayment, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+    }
+
+    private async groupsAnalytics(schema: GroupsAnalyticsSchema){
+        for (var val of schema.data){
+            const item = new AdmGroupsAnalytics
+            item.createdDate = new Date(schema.created_at)
+
+            item.cantidad = val.cantidad
+            item.grupo = val.grupo
+
+            const res = await this.service.insert(AdmGroupsAnalytics, item)
+            console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+        }
     }
 }

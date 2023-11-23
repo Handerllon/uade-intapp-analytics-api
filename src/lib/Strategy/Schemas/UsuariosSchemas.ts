@@ -25,3 +25,13 @@ export interface LoginUserSchema {
         address: string,
     }
 }
+
+export interface UserSupplierCountSchema {
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: {
+        userCount: string,
+        supplierCount: string
+    }
+}

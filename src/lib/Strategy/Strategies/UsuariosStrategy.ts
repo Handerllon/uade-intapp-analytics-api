@@ -1,9 +1,10 @@
 import { Strategy } from "../Strategy";
-import { LoginUserSchema, NewUserCreateSchema } from "../Schemas/UsuariosSchemas";
+import { LoginUserSchema, NewUserCreateSchema, UserSupplierCountSchema } from "../Schemas/UsuariosSchemas";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
 import { UsuariosNewUserCreate } from "../../../entity/Usuarios/UsuariosNewUserCreate.entity";
 import { UsuariosLoginUser } from "../../../entity/Usuarios/LoginUser.entity";
+import { UsuariosUserSupplierCount } from "../../../entity/Usuarios/UserSupplierCount.entity";
 
 export class UsuariosStrategy implements Strategy{
 
@@ -21,6 +22,9 @@ export class UsuariosStrategy implements Strategy{
                     break
                 case "login_user":
                     this.loginUser(data)
+                    break
+                case "user_supplier_count":
+                    this.userSupplierCount(data)
                     break
                 default:
                     throw new Error()   
@@ -59,6 +63,17 @@ export class UsuariosStrategy implements Strategy{
         item.address = schema.data.address
 
         const res = await this.service.insert(UsuariosLoginUser, item)
+        console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+    }
+
+    private async userSupplierCount(schema: UserSupplierCountSchema){
+        const item = new UsuariosUserSupplierCount
+        item.createdDate = new Date(schema.created_at)
+
+        item.supplierCount = schema.data.supplierCount
+        item.userCount = schema.data.userCount
+
+        const res = await this.service.insert(UsuariosUserSupplierCount, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 }

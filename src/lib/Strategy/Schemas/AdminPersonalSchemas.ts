@@ -34,3 +34,13 @@ export interface EmployeePaymentSchema {
         carLicense: string,
     }
 }
+
+export interface GroupsAnalyticsSchema{
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: [{
+        grupo: string,
+        cantidad: string,
+    }]
+}
