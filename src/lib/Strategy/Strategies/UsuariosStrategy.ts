@@ -1,10 +1,11 @@
 import { Strategy } from "../Strategy";
-import { LoginUserSchema, NewUserCreateSchema, UserSupplierCountSchema } from "../Schemas/UsuariosSchemas";
+import { LoginUserSchema, NewCompanyCreateSchema, NewUserCreateSchema, UserSupplierCountSchema } from "../Schemas/UsuariosSchemas";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
 import { UsuariosNewUserCreate } from "../../../entity/Usuarios/UsuariosNewUserCreate.entity";
 import { UsuariosLoginUser } from "../../../entity/Usuarios/LoginUser.entity";
 import { UsuariosUserSupplierCount } from "../../../entity/Usuarios/UserSupplierCount.entity";
+import { UsuariosNewCompanyCreate } from "../../../entity/Usuarios/NewCompanyCreate.entity";
 
 export class UsuariosStrategy implements Strategy{
 
@@ -25,6 +26,9 @@ export class UsuariosStrategy implements Strategy{
                     break
                 case "user_supplier_count":
                     this.userSupplierCount(data)
+                    break
+                case "new_company_create":
+                    this.newCompanyCreate(data)
                     break
                 default:
                     throw new Error()   
@@ -74,6 +78,24 @@ export class UsuariosStrategy implements Strategy{
         item.userCount = schema.data.userCount
 
         const res = await this.service.insert(UsuariosUserSupplierCount, item)
+        console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+    }
+
+    private async newCompanyCreate(schema: NewCompanyCreateSchema){
+        const item = new UsuariosNewCompanyCreate
+        item.createdDate = new Date(schema.created_at)
+
+        item.name = schema.data.name
+        item.businessName = schema.data.businessName
+        item.cuit = schema.data.cuit
+        item.domain = schema.data.domain
+        item.address = schema.data.address
+        item.phone = schema.data.phone
+        item.category = schema.data.category
+        item.email = schema.data.email
+        item.password = schema.data.password
+
+        const res = await this.service.insert(UsuariosNewCompanyCreate, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 }

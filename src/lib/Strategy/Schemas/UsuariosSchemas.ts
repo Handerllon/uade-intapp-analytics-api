@@ -35,3 +35,20 @@ export interface UserSupplierCountSchema {
         supplierCount: string
     }
 }
+
+export interface NewCompanyCreateSchema {
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: {
+        name: string,
+        businessName: string,
+        cuit: string,
+        domain: string,
+        address: string,
+        phone: string,
+        category: string,
+        email: string,
+        password: string
+    }
+}
