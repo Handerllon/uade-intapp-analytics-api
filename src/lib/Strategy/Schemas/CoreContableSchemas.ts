@@ -30,3 +30,13 @@ export interface EmployeePaymentSchema {
         salary: string,
     }
 }
+
+export interface TotalBilledExpensesSchema {
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: {
+        total_billed: string
+        total_expensed: string
+    }
+}
