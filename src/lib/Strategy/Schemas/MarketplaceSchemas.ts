@@ -14,7 +14,7 @@ export interface NewPurchaseSchema {
         	 email: string,
         	 document: string
         }
-        purchase_id: number
+        purchase_id: string
     }
 
 }

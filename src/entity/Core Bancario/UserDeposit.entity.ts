@@ -7,13 +7,13 @@ export enum Currency {
 }
 
 @Entity()
-export class UserDeposit {
+export class CoreBancUserDeposit {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"user_deposit"})
@@ -22,10 +22,10 @@ export class UserDeposit {
   @Column({default:"core-bancario"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   username: string;
 
-  @Column()
+  @Column({nullable: true})
   amount: string;
 
   @Column({type: "enum", enum: Currency})

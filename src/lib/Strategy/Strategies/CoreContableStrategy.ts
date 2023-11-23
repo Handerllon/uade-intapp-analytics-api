@@ -1,9 +1,9 @@
 import { Strategy } from "../Strategy";
 import { BillGenerationSchema, EmployeePaymentSchema } from "../Schemas/CoreContableSchemas";
-import { BillGeneration } from "../../../entity/Core Contable/BillGeneration.entity";
+import { CoreContBillGeneration } from "../../../entity/Core Contable/BillGeneration.entity";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
-import { CoreContableEmployeePayment } from "../../../entity/Core Contable/CoreContableEmployeePayment.entity";
+import { CoreContEmployeePayment } from "../../../entity/Core Contable/CoreContableEmployeePayment.entity";
 
 export class CoreContableStrategy implements Strategy{
 
@@ -18,19 +18,22 @@ export class CoreContableStrategy implements Strategy{
             switch(data["event_name"]){
                 case "bill_generation":
                     this.billGeneration(data)
+                    break
                 case "employee_payment":
                     this.employeePayment(data)
+                    break
                 default:
                     throw new Error()
             }
         }
         catch (err) {
+            console.log(data)
             throw new Error("Unprocessed core-contable event, logging...")
         }
     }
 
     private async billGeneration(schema: BillGenerationSchema){
-        const item = new BillGeneration
+        const item = new CoreContBillGeneration
         item.createdDate = new Date(schema.created_at)
 
         item.productName = schema.data.product_name
@@ -48,18 +51,18 @@ export class CoreContableStrategy implements Strategy{
         item.paymentMethod = schema.data.payment_method
         item.billURL = schema.data.bill_url
 
-        const res = await this.service.insert(BillGeneration, item)
+        const res = await this.service.insert(CoreContBillGeneration, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 
     private async employeePayment(schema: EmployeePaymentSchema){
-        const item = new CoreContableEmployeePayment
+        const item = new CoreContEmployeePayment
         item.createdDate = new Date(schema.created_at)
 
         item.salary = schema.data.salary
         item.document = schema.data.idEmpleado
 
-        const res = await this.service.insert(CoreContableEmployeePayment, item)
+        const res = await this.service.insert(CoreContEmployeePayment, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 }

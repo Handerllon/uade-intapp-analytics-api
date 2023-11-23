@@ -8,13 +8,13 @@ export enum Status {
 }
 
 @Entity()
-export class RobotUpdate {
+export class RobotsRobotUpdate {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"robot_update"})
@@ -23,28 +23,28 @@ export class RobotUpdate {
   @Column({default:"robots"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   id: string;
 
-  @Column()
+  @Column({nullable: true})
   x: string;
 
-  @Column()
+  @Column({nullable: true})
   y: string;
 
-  @Column()
+  @Column({nullable: true})
   name: string;
 
-  @Column()
+  @Column({nullable: true})
   velocity: string;
 
-  @Column()
+  @Column({nullable: true})
   battery: string;
 
-  @Column({type: "enum", enum: Status})
+  @Column({nullable: true})
   robotStatus: string;
 
-  @Column()
+  @Column({nullable: true})
   deliveryId: string;
 
 }

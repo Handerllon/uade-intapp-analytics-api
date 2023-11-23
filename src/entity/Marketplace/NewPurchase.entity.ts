@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class NewPurchase {
+export class MarketNewPurchase {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"new_purchase"})
@@ -16,33 +16,33 @@ export class NewPurchase {
   @Column({default:"marketplace"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   productName: string;
 
-  @Column()
+  @Column({nullable: true})
   productPrice: number;
 
-  @Column()
+  @Column({nullable: true})
   productAmount: number;
 
-  @Column()
+  @Column({nullable: true})
   productMarketplace: string;
 
-  @Column()
+  @Column({nullable: true})
   productMarketplaceCUIT: string;
 
-  @Column()
+  @Column({nullable: true})
   deliveryLot: string;
 
-  @Column()
+  @Column({nullable: true})
   name: string;
 
-  @Column()
+  @Column({nullable: true})
   email: string;
 
-  @Column()
+  @Column({nullable: true})
   document: string;
 
-  @Column()
-  purchaseId: number;
+  @Column({nullable: true})
+  purchaseId: string;
 }

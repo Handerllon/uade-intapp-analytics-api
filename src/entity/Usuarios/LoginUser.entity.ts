@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class LoginUser {
+export class UsuariosLoginUser {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"login_user"})
@@ -16,21 +16,21 @@ export class LoginUser {
   @Column({default:"usuarios"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   username: string;
 
-  @Column()
+  @Column({nullable: true})
   password: string;
 
-  @Column()
+  @Column({nullable: true})
   name: string;
 
-  @Column()
+  @Column({nullable: true})
   email: string;
 
-  @Column()
+  @Column({nullable: true})
   document: string;
 
-  @Column()
+  @Column({nullable: true})
   address: string;
 }

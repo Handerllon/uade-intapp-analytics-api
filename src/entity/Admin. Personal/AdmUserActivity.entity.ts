@@ -18,13 +18,13 @@ export enum Events {
 }
 
 @Entity()
-export class UserActivity {
+export class AdmUserActivity {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"user_activity"})
@@ -33,10 +33,10 @@ export class UserActivity {
   @Column({default:"admin-personal"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   username: string;
 
-  @Column()
+  @Column({nullable: true})
   email: string;
 
   @Column({type: "enum", enum: Groups})

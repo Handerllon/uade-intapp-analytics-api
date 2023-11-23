@@ -2,7 +2,7 @@ import { Strategy } from "../Strategy";
 import { NewPurchaseSchema } from "../Schemas/MarketplaceSchemas";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
-import { NewPurchase } from "../../../entity/Marketplace/NewPurchase.entity";
+import { MarketNewPurchase } from "../../../entity/Marketplace/NewPurchase.entity";
 
 export class MarketplaceStrategy implements Strategy{
 
@@ -16,18 +16,20 @@ export class MarketplaceStrategy implements Strategy{
         try{
             switch(data["event_name"]){
                 case "new_purchase":
-                    this.newPurchase(data)   
+                    this.newPurchase(data)
+                    break  
                 default:
                     throw new Error()   
             }
         }
         catch (err){
+            console.log(data)
             throw new Error("Unprocessed marketplace event, logging...")
         }
     }
 
     private async newPurchase(schema: NewPurchaseSchema){
-        const item = new NewPurchase
+        const item = new MarketNewPurchase
         item.createdDate = new Date(schema.created_at)
 
         item.productName = schema.data.product_name
@@ -43,7 +45,7 @@ export class MarketplaceStrategy implements Strategy{
 
         item.purchaseId = schema.data.purchase_id
 
-        const res = await this.service.insert(NewPurchase, item)
+        const res = await this.service.insert(MarketNewPurchase, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 }

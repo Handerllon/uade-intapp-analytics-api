@@ -5,13 +5,13 @@ export enum Status {
 }
 
 @Entity()
-export class DeliverySuccessful {
+export class RobotsDeliverySuccessful {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"delivery_successful"})
@@ -20,16 +20,16 @@ export class DeliverySuccessful {
   @Column({default:"robots"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   purchaseId: number;
 
-  @Column()
+  @Column({nullable: true})
   status: string;
 
-  @Column()
+  @Column({nullable: true})
   deliveryDate: Date;
 
-  @Column()
+  @Column({nullable: true})
   requestDate: Date;
 
 }

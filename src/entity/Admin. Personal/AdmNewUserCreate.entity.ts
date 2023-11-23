@@ -12,13 +12,13 @@ export enum Groups {
 }
 
 @Entity()
-export class NewUserCreate {
+export class AdmNewUserCreate {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"new_user_create"})
@@ -27,22 +27,22 @@ export class NewUserCreate {
   @Column({default:"admin-personal"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   username: string;
 
-  @Column()
+  @Column({nullable: true})
   password: string;
 
-  @Column()
+  @Column({nullable: true})
   nombre: string;
 
-  @Column()
+  @Column({nullable: true})
   apellido: string;
 
-  @Column()
+  @Column({nullable: true})
   email: string;
 
-  @Column()
+  @Column({nullable: true})
   document: string;
 
   @Column({type: "enum", enum: Groups})

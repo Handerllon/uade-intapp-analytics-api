@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class PaymentOk {
+export class CoreBancPaymentOk {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"payment_ok"})
@@ -16,12 +16,12 @@ export class PaymentOk {
   @Column({default:"core-bancario"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   dni: string;
 
-  @Column()
+  @Column({nullable: true})
   monto: string;
 
-  @Column()
+  @Column({nullable: true})
   result: string;
 }

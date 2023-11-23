@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class CoreContableEmployeePayment {
+export class CoreContEmployeePayment {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"employee_payment"})
@@ -16,9 +16,9 @@ export class CoreContableEmployeePayment {
   @Column({default:"core-contable"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   document: string
 
-  @Column()
+  @Column({nullable: true})
   salary: string
 }

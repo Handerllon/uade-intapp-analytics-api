@@ -7,7 +7,7 @@ export class UsuariosNewUserCreate {
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"new_user_create"})
@@ -16,21 +16,21 @@ export class UsuariosNewUserCreate {
   @Column({default:"usuarios"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   username: string;
 
-  @Column()
+  @Column({nullable: true})
   password: string;
 
-  @Column()
+  @Column({nullable: true})
   name: string;
 
-  @Column()
+  @Column({nullable: true})
   email: string;
 
-  @Column()
+  @Column({nullable: true})
   document: string;
 
-  @Column()
+  @Column({nullable: true})
   address: string;
 }

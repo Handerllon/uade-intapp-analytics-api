@@ -3,7 +3,7 @@ import { LoginUserSchema, NewUserCreateSchema } from "../Schemas/UsuariosSchemas
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
 import { UsuariosNewUserCreate } from "../../../entity/Usuarios/UsuariosNewUserCreate.entity";
-import { LoginUser } from "../../../entity/Usuarios/LoginUser.entity";
+import { UsuariosLoginUser } from "../../../entity/Usuarios/LoginUser.entity";
 
 export class UsuariosStrategy implements Strategy{
 
@@ -18,13 +18,16 @@ export class UsuariosStrategy implements Strategy{
             switch(data["event_name"]){
                 case "new_user_create":
                     this.newUserCreate(data)
+                    break
                 case "login_user":
                     this.loginUser(data)
+                    break
                 default:
                     throw new Error()   
             }
         }
         catch (err){
+            console.log(data)
             throw new Error("Unprocessed usuarios event, logging...")
         }
     }
@@ -45,7 +48,7 @@ export class UsuariosStrategy implements Strategy{
     }
 
     private async loginUser(schema: LoginUserSchema){
-        const item = new LoginUser
+        const item = new UsuariosLoginUser
         item.createdDate = new Date(schema.created_at)
 
         item.username = schema.data.username
@@ -55,7 +58,7 @@ export class UsuariosStrategy implements Strategy{
         item.document = schema.data.document
         item.address = schema.data.address
 
-        const res = await this.service.insert(LoginUser, item)
+        const res = await this.service.insert(UsuariosLoginUser, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 }

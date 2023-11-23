@@ -7,13 +7,13 @@ export enum Status {
 }
 
 @Entity()
-export class DeliveryUpdate {
+export class RobotsDeliveryUpdate {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"delivery_update"})
@@ -22,10 +22,10 @@ export class DeliveryUpdate {
   @Column({default:"robots"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   purchaseId: number;
 
-  @Column()
+  @Column({nullable: true})
   status: string;
 
 }

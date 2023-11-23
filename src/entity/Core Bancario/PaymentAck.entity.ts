@@ -7,13 +7,13 @@ export enum Currency {
 }
 
 @Entity()
-export class PaymentAck {
+export class CoreBancPaymentAck {
 
   //usamos eventid ya que esta es la Key
   @PrimaryGeneratedColumn()
   eventId: string;
 
-  @Column()
+  @Column({nullable: true})
   createdDate: Date;
 
   @Column({default:"payment_ack"})
@@ -22,34 +22,34 @@ export class PaymentAck {
   @Column({default:"core-bancario"})
   eventSender: string
 
-  @Column()
+  @Column({nullable: true})
   productName: string;
 
-  @Column()
+  @Column({nullable: true})
   productPrice: number;
 
-  @Column()
+  @Column({nullable: true})
   productAmount: number;
 
-  @Column()
+  @Column({nullable: true})
   productMarketplace: string;
 
-  @Column()
+  @Column({nullable: true})
   productMarketplaceCUIT: string;
 
-  @Column()
+  @Column({nullable: true})
   deliveryLot: string;
 
-  @Column()
+  @Column({nullable: true})
   name: string;
 
-  @Column()
+  @Column({nullable: true})
   email: string;
 
-  @Column()
+  @Column({nullable: true})
   document: string;
 
-  @Column()
+  @Column({nullable: true})
   purchaseId: number;
 
   @Column({type: "enum", enum: Currency})
