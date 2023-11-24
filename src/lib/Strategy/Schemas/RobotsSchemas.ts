@@ -3,7 +3,7 @@ export interface DeliveryUpdateSchema {
     created_at: string,
     event_name: string,
     data: {
-        purchase_id: number,
+        purchase_id: string,
         status: string
     }
 }
@@ -13,7 +13,7 @@ export interface DeliverySuccessfulSchema {
     created_at: string,
     event_name: string,
     data: {
-        purchase_id: number,
+        purchase_id: string,
         status: string,
         deliveryDate: string,
         requestDate: string

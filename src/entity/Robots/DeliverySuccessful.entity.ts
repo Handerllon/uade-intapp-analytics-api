@@ -21,7 +21,7 @@ export class RobotsDeliverySuccessful {
   eventSender: string
 
   @Column({nullable: true})
-  purchaseId: number;
+  purchaseId: string;
 
   @Column({nullable: true})
   status: string;
