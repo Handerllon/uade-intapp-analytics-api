@@ -26,10 +26,10 @@ export class CoreBancPaymentAck {
   productName: string;
 
   @Column({nullable: true})
-  productPrice: number;
+  productPrice: string;
 
   @Column({nullable: true})
-  productAmount: number;
+  productAmount: string;
 
   @Column({nullable: true})
   productMarketplace: string;
@@ -50,7 +50,7 @@ export class CoreBancPaymentAck {
   document: string;
 
   @Column({nullable: true})
-  purchaseId: number;
+  purchaseId: string;
 
   @Column({type: "enum", enum: Currency})
   paymentMethod: string;

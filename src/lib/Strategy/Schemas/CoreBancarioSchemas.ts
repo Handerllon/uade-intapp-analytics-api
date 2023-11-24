@@ -4,8 +4,8 @@ export interface PaymentAckSchema {
     event_name: string,
     data: {
         product_name: string,
-        product_price: number,
-        product_amount: number,
+        product_price: string,
+        product_amount: string,
         product_marketplace: string,
         product_marketplace_cuit: string,
         delivery_lot: string,
@@ -14,7 +14,7 @@ export interface PaymentAckSchema {
         	 email: string,
         	 document: string
         }
-        purchase_id: number,
+        purchase_id: string,
         payment_method: string
     }
 }
