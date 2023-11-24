@@ -50,3 +50,14 @@ export interface DeepRacerPaymentOkSchema {
         total_amount: string
     }
 }
+
+export interface NewPaymentDeliverarSchema {
+    sender: string,
+    created_at: string,
+    event_name: string,
+    data: {
+        business_name: string,
+        payment_date: string,
+        amount: string
+    }
+}

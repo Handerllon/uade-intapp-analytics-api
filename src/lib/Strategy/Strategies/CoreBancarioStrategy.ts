@@ -1,11 +1,12 @@
 import { Strategy } from "../Strategy";
-import { DeepRacerPaymentOkSchema, PaymentAckSchema, PaymentOkSchema, UserDepositSchema } from "../Schemas/CoreBancarioSchemas";
+import { DeepRacerPaymentOkSchema, NewPaymentDeliverarSchema, PaymentAckSchema, PaymentOkSchema, UserDepositSchema } from "../Schemas/CoreBancarioSchemas";
 import { v4 } from 'uuid'
 import DatabaseService from "../../../services/DatabaseService";
 import { CoreBancPaymentAck } from "../../../entity/Core Bancario/PaymentAck.entity";
 import { CoreBancUserDeposit } from "../../../entity/Core Bancario/UserDeposit.entity";
 import { CoreBancPaymentOk } from "../../../entity/Core Bancario/PaymentOk.entity";
 import { CoreBancDeepRacerPaymentOk } from "../../../entity/Core Bancario/DeepRacerPaymentOk.entity";
+import { CoreBancNewPaymentDeliverar } from "../../../entity/Core Bancario/NewPaymentDeliverar.entity";
 
 export class CoreBancarioStrategy implements Strategy{
 
@@ -29,6 +30,9 @@ export class CoreBancarioStrategy implements Strategy{
                     break
                 case "deep_racer_payment_ok":
                     this.deepRacerPaymentOk(data)
+                    break
+                case "new_payment_deliverar":
+                    this.newPaymentDeliverar(data)
                     break
                 default:
                     throw new Error()
@@ -100,6 +104,18 @@ export class CoreBancarioStrategy implements Strategy{
         item.totalAmount = schema.data.total_amount
 
         const res = await this.service.insert(CoreBancDeepRacerPaymentOk, item)
+        console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+    }
+
+    private async newPaymentDeliverar(schema: NewPaymentDeliverarSchema){
+        const item = new CoreBancNewPaymentDeliverar
+        item.createdDate = new Date(schema.created_at)
+
+        item.businessName = schema.data.business_name
+        item.paymentDate = new Date(schema.data.payment_date)
+        item.amount = schema.data.amount
+
+        const res = await this.service.insert(CoreBancNewPaymentDeliverar, item)
         console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
     }
 }

@@ -66,22 +66,28 @@ export class RobotStrategy implements Strategy{
     }
 
     private async robotUpdate(schema: RobotUpdateSchema){
-        const item = new RobotsRobotUpdate
-        item.createdDate = new Date(schema.created_at)
+        try{
+            const item = new RobotsRobotUpdate
+            item.createdDate = new Date(schema.created_at)
 
-        item.id = schema.data.id
-        item.x = schema.data.x
-        item.y = schema.data.y
-        item.name = schema.data.name
-        item.velocity = schema.data.velocity
-        item.battery = schema.data.battery
-        item.robotStatus = schema.data.robotStatus
-        item.deliveryId = schema.data.deliveryId
+            item.id = schema.data.id
+            item.x = schema.data.x
+            item.y = schema.data.y
+            item.name = schema.data.name
+            item.velocity = schema.data.velocity
+            item.battery = schema.data.battery
+            item.robotStatus = schema.data.robotStatus
+            item.deliveryId = schema.data.deliveryId
 
-        const res = await this.service.insert(RobotsRobotUpdate, item)
+            const res = await this.service.insert(RobotsRobotUpdate, item)
 
-        console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
-        return
+            console.log(`Successfully inserted ${schema.event_name} event from ${schema.sender}`)
+            return
+        }
+        catch (err){
+            console.log(schema)
+            throw new Error("Error parsing robots robot_update")
+        }
     }
 
     private async robotRepair(schema: RobotRepairSchema){
