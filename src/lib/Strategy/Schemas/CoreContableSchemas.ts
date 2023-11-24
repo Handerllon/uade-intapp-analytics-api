@@ -14,7 +14,7 @@ export interface BillGenerationSchema {
         	 email: string,
         	 document: string
         }
-        purchase_id: number,
+        purchase_id: string,
         payment_method: string,
         bill_url: string
     }

@@ -30,7 +30,7 @@ export class MarketplaceStrategy implements Strategy{
 
     private async newPurchase(schema: NewPurchaseSchema){
         const item = new MarketNewPurchase
-        item.createdDate = new Date(schema.created_at)
+        item.createdDate = new Date()
 
         item.productName = schema.data.product_name
         item.productPrice = schema.data.product_price

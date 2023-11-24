@@ -50,7 +50,7 @@ export class CoreContBillGeneration {
   document: string;
 
   @Column({nullable: true})
-  purchaseId: number;
+  purchaseId: string;
 
   @Column({type: "enum", enum: Currency})
   paymentMethod: string;
